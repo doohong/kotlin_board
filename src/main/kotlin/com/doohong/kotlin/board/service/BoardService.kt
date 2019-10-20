@@ -20,10 +20,15 @@ class BoardService(
     }
     fun updateBoard(boardReq: BoardRequest): BoardResponse{
 
-        val board = boardRepository.findById(boardReq.id!!).orElseThrow()
+        var board = boardRepository.findById(boardReq.id!!).orElseThrow()
         board.content = boardReq.content
         board.title = boardReq.title
         boardRepository.save(board)
+        return BoardResponse(board.id!!,board.title,board.content,board.regMemberId,board.regDate)
+    }
+    fun deleteBoard(boardReq: BoardRequest): BoardResponse{
+        val board = boardRepository.findById(boardReq.id!!).orElseThrow()
+        boardRepository.deleteById(boardReq.id!!)
         return BoardResponse(board.id!!,board.title,board.content,board.regMemberId,board.regDate)
     }
 }

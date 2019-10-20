@@ -26,5 +26,8 @@ class BoardController(
     fun updateBoard(@RequestBody boardReq: BoardRequest): ResponseEntity<BoardResponse>{
         return ResponseEntity.ok().body(boardService.updateBoard(boardReq))
     }
-
+    @PostMapping(value="/delete_board")
+    fun deleteBoard(@RequestBody boardReq: BoardRequest): ResponseEntity<BoardResponse>{
+        return ResponseEntity.ok().body(boardService.deleteBoard(boardReq))
+    }
 }
