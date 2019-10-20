@@ -10,13 +10,20 @@ import org.springframework.stereotype.Service
 class BoardService(
         private val boardRepository: BoardRepository
 ){
-    fun findBoardByid(id: Long): Board{
+    fun findBoardByid(id: Long): BoardResponse{
         var board: Board = boardRepository.findById(id).orElseThrow()
-        return board
+        return BoardResponse(board.id!!,board.title,board.content,board.regMemberId,board.regDate)
     }
-    fun writeBoard(boardReq: BoardRequest): BoardResponse{
-
+    fun insertBoard(boardReq: BoardRequest): BoardResponse{
         val board = boardRepository.save(Board(null,boardReq.title,boardReq.content,boardReq.regMemberId,boardReq.regDate));
+        return BoardResponse(board.id!!,board.title,board.content,board.regMemberId,board.regDate)
+    }
+    fun updateBoard(boardReq: BoardRequest): BoardResponse{
+
+        val board = boardRepository.findById(boardReq.id!!).orElseThrow()
+        board.content = boardReq.content
+        board.title = boardReq.title
+        boardRepository.save(board)
         return BoardResponse(board.id!!,board.title,board.content,board.regMemberId,board.regDate)
     }
 }

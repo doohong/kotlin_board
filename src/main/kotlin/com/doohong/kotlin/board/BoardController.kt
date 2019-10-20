@@ -8,16 +8,23 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
+@RequestMapping(value="/board")
 class BoardController(
         private val boardService: BoardService){
 
-    @GetMapping(value="/board/{id}")
-    fun getBoard(@PathVariable("id")id: Long): ResponseEntity<Board> {
+    @GetMapping(value="/view_board/{id}")
+    fun getBoardDetail(@PathVariable("id")id: Long): ResponseEntity<BoardResponse> {
         return ResponseEntity.ok().body(boardService.findBoardByid(id));
     }
 
-    @PostMapping(value="/board")
-    fun setBoard(@RequestBody boardReq: BoardRequest):ResponseEntity<BoardResponse>{
-        return ResponseEntity.ok().body(boardService.writeBoard(boardReq));
+    @PostMapping(value="/insert_board")
+    fun insertBoard(@RequestBody boardReq: BoardRequest):ResponseEntity<BoardResponse>{
+        return ResponseEntity.ok().body(boardService.insertBoard(boardReq));
     }
+
+    @PostMapping(value="/update_board")
+    fun updateBoard(@RequestBody boardReq: BoardRequest): ResponseEntity<BoardResponse>{
+        return ResponseEntity.ok().body(boardService.updateBoard(boardReq))
+    }
+
 }

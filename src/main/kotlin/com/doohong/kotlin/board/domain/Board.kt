@@ -1,5 +1,6 @@
 package com.doohong.kotlin.board.domain
 
+import com.doohong.kotlin.board.dto.BoardResponse
 import java.time.LocalDateTime
 import javax.persistence.*
 
