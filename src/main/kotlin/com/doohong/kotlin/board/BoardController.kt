@@ -4,6 +4,7 @@ import com.doohong.kotlin.board.domain.Board
 import com.doohong.kotlin.board.dto.BoardRequest
 import com.doohong.kotlin.board.dto.BoardResponse
 import com.doohong.kotlin.board.service.BoardService
+import org.apache.coyote.Response
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
@@ -12,14 +13,18 @@ import org.springframework.web.bind.annotation.*
 class BoardController(
         private val boardService: BoardService){
 
+    @GetMapping(value="/list_board")
+    fun getBoardList(): ResponseEntity<List<BoardResponse>>{
+        return ResponseEntity.ok().body(boardService.findBoardList())
+    }
     @GetMapping(value="/view_board/{id}")
     fun getBoardDetail(@PathVariable("id")id: Long): ResponseEntity<BoardResponse> {
-        return ResponseEntity.ok().body(boardService.findBoardByid(id));
+        return ResponseEntity.ok().body(boardService.findBoardByid(id))
     }
 
     @PostMapping(value="/insert_board")
     fun insertBoard(@RequestBody boardReq: BoardRequest):ResponseEntity<BoardResponse>{
-        return ResponseEntity.ok().body(boardService.insertBoard(boardReq));
+        return ResponseEntity.ok().body(boardService.insertBoard(boardReq))
     }
 
     @PostMapping(value="/update_board")

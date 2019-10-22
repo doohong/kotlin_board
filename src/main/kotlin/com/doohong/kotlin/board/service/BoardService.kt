@@ -5,11 +5,16 @@ import com.doohong.kotlin.board.dto.BoardRequest
 import com.doohong.kotlin.board.dto.BoardResponse
 import com.doohong.kotlin.board.repository.BoardRepository
 import org.springframework.stereotype.Service
+import java.util.stream.Collectors
 
 @Service
 class BoardService(
         private val boardRepository: BoardRepository
 ){
+    fun findBoardList():List<BoardResponse>{
+        var boardList: List<Board> = boardRepository.findAll()
+        return boardList.stream().map{x->BoardResponse(x.id!!,x.title,x.content,x.regMemberId,x.regDate)}.collect(Collectors.toList());
+    }
     fun findBoardByid(id: Long): BoardResponse{
         var board: Board = boardRepository.findById(id).orElseThrow()
         return BoardResponse(board.id!!,board.title,board.content,board.regMemberId,board.regDate)
