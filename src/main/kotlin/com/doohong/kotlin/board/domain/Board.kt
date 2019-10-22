@@ -24,3 +24,14 @@ data class Board(
         @Column(name = "reg_date")
         var regDate: LocalDateTime
 )
+{
+        fun getBoardResponse(): BoardResponse {
+                return BoardResponse(
+                        this.id!!,
+                        this.title,
+                        this.content,
+                        this.regMemberId,
+                        this.regDate
+                )
+        }
+}

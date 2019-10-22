@@ -13,15 +13,15 @@ class BoardService(
 ){
     fun findBoardList():List<BoardResponse>{
         var boardList: List<Board> = boardRepository.findAll()
-        return boardList.stream().map{x->BoardResponse(x.id!!,x.title,x.content,x.regMemberId,x.regDate)}.collect(Collectors.toList());
+        return boardList.stream().map{x->x.getBoardResponse()}.collect(Collectors.toList())
     }
     fun findBoardByid(id: Long): BoardResponse{
         var board: Board = boardRepository.findById(id).orElseThrow()
-        return BoardResponse(board.id!!,board.title,board.content,board.regMemberId,board.regDate)
+        return board.getBoardResponse()
     }
     fun insertBoard(boardReq: BoardRequest): BoardResponse{
         val board = boardRepository.save(Board(null,boardReq.title,boardReq.content,boardReq.regMemberId,boardReq.regDate));
-        return BoardResponse(board.id!!,board.title,board.content,board.regMemberId,board.regDate)
+        return board.getBoardResponse()
     }
     fun updateBoard(boardReq: BoardRequest): BoardResponse{
 
@@ -29,11 +29,11 @@ class BoardService(
         board.content = boardReq.content
         board.title = boardReq.title
         boardRepository.save(board)
-        return BoardResponse(board.id!!,board.title,board.content,board.regMemberId,board.regDate)
+        return board.getBoardResponse()
     }
     fun deleteBoard(boardReq: BoardRequest): BoardResponse{
         val board = boardRepository.findById(boardReq.id!!).orElseThrow()
         boardRepository.deleteById(boardReq.id!!)
-        return BoardResponse(board.id!!,board.title,board.content,board.regMemberId,board.regDate)
+        return board.getBoardResponse()
     }
 }
